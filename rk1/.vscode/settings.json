@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "*.tcc": "c",
+        "iosfwd": "c",
+        "limits": "c",
+        "functional": "c",
+        "algorithm": "c",
+        "keysymdef.h": "c",
+        "xlib.h": "c",
+        "calculate.h": "c",
+        "control.h": "c",
+        "xutil.h": "c",
+        "keysym.h": "c",
+        "graphics.h": "c",
+        "stdlib.h": "c",
+        "stdio.h": "c"
+    }
+}
