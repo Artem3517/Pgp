@@ -12,6 +12,11 @@ void setup(Units *units) {
     attr.override_redirect = False;
     attr.event_mask = ButtonPressMask | ButtonReleaseMask | ExposureMask | ButtonMotionMask | KeyPressMask;
     attr.background_pixel = WHITE;
+    XSizeHints hint;
+    hint.flags = (PMinSize | PMaxSize | PPosition);
+    hint.min_width = hint.max_width = 640;
+    hint.min_height = hint.max_height = 480;
+    XSetNormalHints(units->dpy, root, &hint);
     units->win = XCreateWindow(units->dpy, root, 50, 50, 640, 480, 1, depth, InputOutput, CopyFromParent,
                                units->mask, &attr);
     XMapWindow(units->dpy, units->win);
@@ -91,4 +96,8 @@ void dispatch(Units *units) {
     }
 }
 
-void delete_rects(Units *units) { free(units->rects); }
+void delete_rects(Units *units) {
+    if (units->count > 0) {
+        free(units->rects);
+    }
+}

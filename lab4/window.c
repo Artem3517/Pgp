@@ -1,5 +1,4 @@
 #include "window.h"
-#include <stdio.h>
 
 void setup(Units *units) {
     units->dpy = XOpenDisplay(NULL);
@@ -13,12 +12,18 @@ void setup(Units *units) {
     attr.override_redirect = False;
     attr.event_mask = ButtonPressMask | ButtonReleaseMask | ExposureMask | ButtonMotionMask | KeyPressMask;
     attr.background_pixel = WHITE;
-    units->win = XCreateWindow(units->dpy, root, 50, 50, 640, 480, 1, depth, InputOutput, CopyFromParent,
+    units->win = XCreateWindow(units->dpy, root, 100, 100, W, H, 1, depth, InputOutput, CopyFromParent,
                                units->mask, &attr);
+    XSizeHints hint;
+    hint.flags = (PMinSize | PMaxSize | PPosition);
+    hint.min_width = hint.max_width = W;
+    hint.min_height = hint.max_height = H;
+    XSetNormalHints(units->dpy, units->win, &hint);
+
     XMapWindow(units->dpy, units->win);
     units->mask = ButtonReleaseMask | ButtonMotionMask;
     units->count = 0;
-    units->mid = -1;
+    units->mid = 0;
 }
 
 void dispatch(Units *units) {
@@ -82,14 +87,13 @@ void dispatch(Units *units) {
 }
 
 void sortCircles(Units *units, int first, int last) {
-    int i, j, pivot;
-    XArc tmp;
     if (first < last) {
-        pivot = first;
-        i = first;
-        j = last;
+        XArc tmp;
+        int pivot = first;
+        int i = first;
+        int j = last;
         while (i < j) {
-            while (units->circles[i].width <= units->circles[pivot].width && i < last) i++;
+            while (i < last && units->circles[i].width <= units->circles[pivot].width) i++;
             while (units->circles[j].width > units->circles[pivot].width) j--;
             if (i < j) {
                 tmp = units->circles[i];

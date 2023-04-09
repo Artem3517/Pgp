@@ -3,9 +3,11 @@
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-
 #include <math.h>
 #include <stdlib.h>
+
+#define W 640
+#define H 480
 
 typedef struct Units {
     Display *dpy;
